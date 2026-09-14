@@ -1,0 +1,19 @@
+fx_version 'cerulean'
+game 'gta5'
+lua54 'yes'
+author 'Kakarot'
+description 'Allows players to play as a news reporter and access the equipment for it'
+version '1.5.0'
+
+shared_scripts {
+    '@qblib/init.lua',
+    'config.lua',
+}
+
+client_scripts {
+    'client/main.lua',
+    'client/spawner.lua',
+    'client/camera.lua',
+}
+
+server_script 'server/main.lua'
