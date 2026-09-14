@@ -5,6 +5,8 @@ author 'Kakarot'
 description 'Allows players to play as a news reporter and access the equipment for it'
 version '1.5.0'
 
+dependency 'qblib'
+
 shared_scripts {
     '@qblib/init.lua',
     'config.lua',
