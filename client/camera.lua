@@ -19,7 +19,7 @@ local function isReporter()
 	return PlayerJob and PlayerJob.name == 'reporter'
 end
 
-local function HideHUDThisFrame()
+local function hideHUDThisFrame()
 	HideHelpTextThisFrame()
 	HideHudAndRadarThisFrame()
 	for _, component in ipairs({1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 15, 18, 19}) do
@@ -27,7 +27,7 @@ local function HideHUDThisFrame()
 	end
 end
 
-local function DisplayNotification(str)
+local function displayNotification(str)
 	SetTextComponentFormat('STRING')
 	AddTextComponentSubstringPlayerName(str)
 	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
@@ -37,7 +37,7 @@ local function drawRct(x, y, width, height, r, g, b, a)
 	DrawRect(x + width / 2, y + height / 2, width, height, r, g, b, a)
 end
 
-local function CheckInputRotation(cam, zoomvalue)
+local function checkInputRotation(cam, zoomvalue)
 	local rightAxisX = GetDisabledControlNormal(0, 220)
 	local rightAxisY = GetDisabledControlNormal(0, 221)
 	if rightAxisX ~= 0.0 or rightAxisY ~= 0.0 then
@@ -48,7 +48,7 @@ local function CheckInputRotation(cam, zoomvalue)
 	end
 end
 
-local function HandleZoom(cam)
+local function handleZoom(cam)
 	local lPed = PlayerPedId()
 	local zoomOutKey, zoomInKey = 241, 242
 	if IsPedSittingInAnyVehicle(lPed) then
@@ -129,7 +129,7 @@ local function disableCombatControlsThisFrame()
 	SetCurrentPedWeapon(PlayerPedId(), GetHashKey('WEAPON_UNARMED'), true)
 end
 
-local function RunBroadcastCam(opts)
+local function runBroadcastCam(opts)
 	activeBroadcast = true
 	SetTimecycleModifier('default')
 	SetTimecycleModifierStrength(0.3)
@@ -187,9 +187,9 @@ local function RunBroadcastCam(opts)
 
 		SetEntityRotation(lPed, 0, 0, new_z, 2, true)
 		local zoomvalue = (1.0 / (fov_max - fov_min)) * (fov - fov_min)
-		CheckInputRotation(cam, zoomvalue)
-		HandleZoom(cam)
-		HideHUDThisFrame()
+		checkInputRotation(cam, zoomvalue)
+		handleZoom(cam)
+		hideHUDThisFrame()
 
 		if opts.isNews then
 			DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)
@@ -223,7 +223,7 @@ local function RunBroadcastCam(opts)
 end
 
 
-local function StartCamHoldLoop()
+local function startCamHoldLoop()
 	CreateThread(function()
 		while holdingCam do
 			if not isReporter() then
@@ -236,9 +236,9 @@ local function StartCamHoldLoop()
 
 			if not activeBroadcast then
 				if IsControlJustReleased(1, 244) then
-					RunBroadcastCam({ isNews = false, exitControl = {0, 177} })
+					runBroadcastCam({ isNews = false, exitControl = {0, 177} })
 				elseif IsControlJustReleased(1, 38) then
-					RunBroadcastCam({ isNews = true, exitControl = {1, 177} })
+					runBroadcastCam({ isNews = true, exitControl = {1, 177} })
 				end
 			end
 
@@ -262,12 +262,12 @@ RegisterNetEvent('Cam:ToggleCam', function()
 	holdingCam = true
 	cam_net = spawnAttachedProp(camModel, 28422, vector3(0.0, 0.0, 0.0), vector3(0.0, 0.0, 0.0))
 	playHoldAnim(camanimDict, camanimName)
-	DisplayNotification(QB.lang('text.weazle_overlay'))
-	StartCamHoldLoop()
+	displayNotification(QB.lang('text.weazle_overlay'))
+	startCamHoldLoop()
 end)
 
 
-local function StartBmicHoldLoop()
+local function startBmicHoldLoop()
 	CreateThread(function()
 		while holdingBmic do
 			if not isReporter() then
@@ -301,7 +301,7 @@ RegisterNetEvent('Mic:ToggleBMic', function()
 	holdingBmic = true
 	bmic_net = spawnAttachedProp(bmicModel, 28422, vector3(-0.08, 0.0, 0.0), vector3(0.0, 0.0, 0.0))
 	playHoldAnim(bmicanimDict, bmicanimName)
-	StartBmicHoldLoop()
+	startBmicHoldLoop()
 end)
 
 

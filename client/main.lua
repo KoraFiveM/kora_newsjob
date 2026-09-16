@@ -41,7 +41,7 @@ CreateThread(function()
             label = QB.lang('text.vehicles'),
             icon = "fas fa-car",
             action = function()
-                MenuGarage('vehicle')
+                menuGarage('vehicle')
             end,
             canInteract = function()
                 return exports.qbcore:getPlayerData().job.name == 'reporter'
@@ -53,7 +53,7 @@ CreateThread(function()
             label = QB.lang('text.helicopters'),
             icon = "fas fa-helicopter",
             action = function()
-                MenuGarage('heli')
+                menuGarage('heli')
             end,
             canInteract = function()
                 return exports.qbcore:getPlayerData().job.name == 'reporter'

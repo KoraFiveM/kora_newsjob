@@ -1,4 +1,4 @@
-function StoreCurrentVehicle()
+function storeCurrentVehicle()
     local veh = GetVehiclePedIsIn(PlayerPedId(), false)
     if veh == 0 then return end
 
@@ -10,7 +10,7 @@ function StoreCurrentVehicle()
     DeleteVehicle(veh)
 end
 
-local function SpawnReporterVehicle(args)
+local function spawnReporterVehicle(args)
     if exports.qbcore:getPlayerData().job.name ~= 'reporter' then return end
     local coords = Config.Locations[args.location].coords
 
@@ -34,7 +34,7 @@ local function SpawnReporterVehicle(args)
     end, args.vehicle, coords, true)
 end
 
-function MenuGarage(location)
+function menuGarage(location)
     local currentGarrage = Config.Locations[location]
     if not currentGarrage or not currentGarrage.vehicles then return end
 
@@ -44,7 +44,7 @@ function MenuGarage(location)
         menu[#menu + 1] = {
             header = vehData.label,
             action = function()
-                SpawnReporterVehicle({ vehicle = vehData.name, location = location, modLivery = vehData.modLivery })
+                spawnReporterVehicle({ vehicle = vehData.name, location = location, modLivery = vehData.modLivery })
             end
         }
     end
