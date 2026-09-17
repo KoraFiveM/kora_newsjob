@@ -25,3 +25,6 @@ Config.VehicleItems = {
     { name = 'newsmic', amount = 1,  info = {}},
     { name = 'newsbmic', amount = 1, info = {}},
 }
+
+-- Registers this resource-owned configuration with qblib.
+if QB and QB.config and QB.config.adopt then Config = QB.config.adopt(Config) end
