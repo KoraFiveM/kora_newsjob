@@ -1,6 +1,5 @@
 local activeItem
 local prop
-local previousCamView
 local items = {
     newscam = { model = 'prop_v_cam_01', bone = 28422, offset = vector3(0.0, 0.0, 0.0), anim = { 'missfinale_c2mcs_1', 'fin_c2_mcs_1_camman' } },
     newsmic = { model = 'prop_v_bmike_01', bone = 28422, offset = vector3(-0.08, 0.0, 0.0), anim = { 'missfra1', 'mcs2_crew_idle_m_boom' } },
@@ -11,9 +10,7 @@ local function removeEquipment()
     if prop and DoesEntityExist(prop) then DeleteEntity(prop) end
     ClearPedSecondaryTask(PlayerPedId())
     prop, activeItem = nil, nil
-    if previousCamView then SetFollowPedCamViewMode(previousCamView) previousCamView = nil end
-    SendNUIMessage({ action = 'close' })
-    SetNuiFocus(false, false)
+    QB.camera.close('equipment_removed')
 end
 local function useEquipment(itemName)
     if not isNewsEmployee() then return end
@@ -31,19 +28,25 @@ local function useEquipment(itemName)
     TaskPlayAnim(ped, item.anim[1], item.anim[2], 1.0, -1.0, -1, 50, 0.0, false, false, false)
     SetModelAsNoLongerNeeded(hash)
     if itemName == 'newscam' then
-        previousCamView = GetFollowPedCamViewMode()
-        SetFollowPedCamViewMode(4)
-        SendNUIMessage({ action = 'open' })
+        QB.camera.open({
+            mode = 'recording',
+            title = 'WEAZEL NEWS',
+            subtitle = 'FIELD UNIT // LIVE',
+            cameraLabel = 'NEWS CAM 01',
+            recording = true,
+            viewMode = 4,
+        })
     end
 end
 RegisterNetEvent('Cam:ToggleCam', function() useEquipment('newscam') end)
 RegisterNetEvent('Mic:ToggleMic', function() useEquipment('newsmic') end)
 RegisterNetEvent('Mic:ToggleBMic', function() useEquipment('newsbmic') end)
-RegisterNUICallback('close', function(_, cb) removeEquipment() cb('ok') end)
 CreateThread(function()
     while true do
         if activeItem then
-            if not isNewsEmployee() or IsEntityDead(PlayerPedId()) or IsControlJustPressed(0, 177) then removeEquipment() end
+            if not isNewsEmployee() or IsEntityDead(PlayerPedId()) or (activeItem == 'newscam' and not QB.camera.isOpen()) then
+                removeEquipment()
+            end
             Wait(0)
         else Wait(500) end
     end
