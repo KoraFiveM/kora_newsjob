@@ -17,7 +17,8 @@ Config.Locations = {
         vehicles = {
             { name = 'conada', label = 'Conada', modLivery = 5},
         }
-    }
+    },
+    shop = vector4(-595.4, -929.9, 23.86, 90.0),
 }
 
 Config.VehicleItems = {

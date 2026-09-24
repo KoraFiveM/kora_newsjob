@@ -3,7 +3,7 @@ local QBCore = exports['qb-core']:GetCoreObject({ 'Functions', 'Commands' })
 RegisterNetEvent('qb-newsjob:server:addVehicleItems', function(plate)
     local src = source
     local Player = exports['qb-core']:GetPlayer(src)
-    if not Player or Player.PlayerData.job.name ~= 'reporter' then return end
+    if not Player or Player.PlayerData.job.name ~= 'news' then return end
     if not exports['qb-vehiclekeys']:HasKeys(src, plate) then return end
 
     exports['qb-inventory']:CreateInventory('trunk-' .. plate)
@@ -13,18 +13,25 @@ RegisterNetEvent('qb-newsjob:server:addVehicleItems', function(plate)
     end
 end)
 
+local equipment = { newscam = true, newsmic = true, newsbmic = true }
+RegisterNetEvent('qb-newsjob:server:requestedEquipment', function(item)
+    local Player = exports['qb-core']:GetPlayer(source)
+    if not Player or Player.PlayerData.job.name ~= 'news' or not equipment[item] then return end
+    exports['qb-inventory']:AddItem(source, item, 1, nil, nil, 'qb-newsjob:equipment-shop')
+end)
+
 exports['qb-core']:CreateUseableItem('newscam', function(source)
     local Player = exports['qb-core']:GetPlayer(source)
-    if not Player or Player.PlayerData.job.name ~= 'reporter' then return end
+    if not Player or Player.PlayerData.job.name ~= 'news' then return end
     TriggerClientEvent('Cam:ToggleCam', source)
 end)
 exports['qb-core']:CreateUseableItem('newsmic', function(source)
     local Player = exports['qb-core']:GetPlayer(source)
-    if not Player or Player.PlayerData.job.name ~= 'reporter' then return end
+    if not Player or Player.PlayerData.job.name ~= 'news' then return end
     TriggerClientEvent('Mic:ToggleMic', source)
 end)
 exports['qb-core']:CreateUseableItem('newsbmic', function(source)
     local Player = exports['qb-core']:GetPlayer(source)
-    if not Player or Player.PlayerData.job.name ~= 'reporter' then return end
+    if not Player or Player.PlayerData.job.name ~= 'news' then return end
     TriggerClientEvent('Mic:ToggleBMic', source)
 end)

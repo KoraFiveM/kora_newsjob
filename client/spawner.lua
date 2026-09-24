@@ -11,7 +11,7 @@ function storeCurrentVehicle()
 end
 
 local function spawnReporterVehicle(args)
-    if exports.qbcore:getPlayerData().job.name ~= 'reporter' then return end
+    if exports.qbcore:getPlayerData().job.name ~= 'news' then return end
     local coords = Config.Locations[args.location].coords
 
     exports['qb-core']:TriggerCallback('QBCore:Server:SpawnVehicle', function(netId)
