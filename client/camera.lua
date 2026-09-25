@@ -19,12 +19,10 @@ local function useEquipment(itemName)
     if not item then return end
     activeItem = itemName
     local ped, hash = PlayerPedId(), joaat(item.model)
-    RequestModel(hash)
-    while not HasModelLoaded(hash) do Wait(0) end
+    if not QB.stream.loadModel(hash) then return end
     prop = CreateObject(hash, GetEntityCoords(ped), true, true, false)
     AttachEntityToEntity(prop, ped, GetPedBoneIndex(ped, item.bone), item.offset.x, item.offset.y, item.offset.z, 0.0, 0.0, 0.0, true, true, false, true, 0, true)
-    RequestAnimDict(item.anim[1])
-    while not HasAnimDictLoaded(item.anim[1]) do Wait(0) end
+    if not QB.stream.loadAnimDict(item.anim[1]) then return end
     TaskPlayAnim(ped, item.anim[1], item.anim[2], 1.0, -1.0, -1, 50, 0.0, false, false, false)
     SetModelAsNoLongerNeeded(hash)
     if itemName == 'newscam' then
