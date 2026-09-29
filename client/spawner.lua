@@ -34,19 +34,58 @@ local function spawnReporterVehicle(args)
     end, args.vehicle, coords, true)
 end
 
-function menuGarage(location)
-    local currentGarrage = Config.Locations[location]
-    if not currentGarrage or not currentGarrage.vehicles then return end
+local garageAppId = 'qb-newsjob:garage'
+local spawnVehicleAction = 'qb-newsjob:spawn-vehicle'
+local vehicleChoices = {}
 
-    local menu = { { header = QB.lang('text.' .. location), isMenuHeader = true } }
+local function buildGarageNavigation()
+    local navigation = {}
 
-    for veh, vehData in pairs(currentGarrage.vehicles) do
-        menu[#menu + 1] = {
-            header = vehData.label,
-            action = function()
-                spawnReporterVehicle({ vehicle = vehData.name, location = location, modLivery = vehData.modLivery })
-            end
+    for _, location in ipairs({ 'vehicle', 'heli' }) do
+        local garage = Config.Locations[location]
+        local vehicles = garage and garage.vehicles or {}
+        local items = {}
+
+        for index, vehicle in pairs(vehicles) do
+            local id = ('%s:%s'):format(location, index)
+            vehicleChoices[id] = { vehicle = vehicle.name, location = location, modLivery = vehicle.modLivery }
+            items[#items + 1] = {
+                id = id,
+                label = vehicle.label,
+                action = { id = spawnVehicleAction, label = 'Take vehicle' },
+            }
+        end
+
+        navigation[#navigation + 1] = {
+            id = location,
+            label = QB.lang('text.' .. location),
+            icon = location == 'vehicle' and 'Car' or 'Helicopter',
+            content = {
+                title = QB.lang('text.' .. location),
+                blocks = #items > 0 and { { type = 'list', id = location, items = items } }
+                    or { { type = 'empty', title = 'No vehicles available', icon = 'CircleOff' } },
+            },
         }
     end
-    exports['qb-menu']:openMenu(menu)
+
+    return navigation
+end
+
+QB.nui.registerApp({
+    id = garageAppId,
+    title = 'Weazel News Garage',
+    icon = 'Newspaper',
+    layout = 'compact',
+    navigation = buildGarageNavigation(),
+    onAction = function(actionId, context)
+        if actionId ~= spawnVehicleAction then return end
+
+        local vehicle = vehicleChoices[context and context.itemId]
+        if vehicle then spawnReporterVehicle(vehicle) end
+    end,
+})
+
+function menuGarage(location)
+    if not Config.Locations[location] or not Config.Locations[location].vehicles then return end
+    QB.nui.openApp(garageAppId, { viewId = location })
 end
