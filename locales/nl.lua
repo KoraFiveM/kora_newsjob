@@ -23,3 +23,5 @@ if GetConvar('qb_locale', 'en') == 'nl' then
         fallbackLang = Lang,
     })
 end
+
+return Translations

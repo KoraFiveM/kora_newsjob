@@ -19,3 +19,5 @@ client_scripts {
 }
 
 server_script 'server/main.lua'
+
+files { 'locales/*.lua' }
