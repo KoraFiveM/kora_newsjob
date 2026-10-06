@@ -6,6 +6,7 @@ description 'Simple news job equipment and vehicle spawns'
 version '1.5.0'
 
 dependency 'qblib'
+dependency 'qbcore'
 
 shared_scripts {
     '@qblib/init.lua',

@@ -2,7 +2,7 @@ function storeCurrentVehicle()
     local veh = GetVehiclePedIsIn(PlayerPedId(), false)
     if veh == 0 then return end
 
-    local plate = exports['qb-core']:GetPlate(veh)
+    local plate = QB.vehicle.plate(veh)
     if not CurrentPlate[plate] then return end
 
     TriggerServerEvent('qb-vehiclekeys:server:RemoveVehicleKeys', plate)
@@ -14,24 +14,29 @@ local function spawnReporterVehicle(args)
     if exports.qbcore:getPlayerData({ 'job', 'name' }) ~= 'news' then return end
     local coords = Config.Locations[args.location].coords
 
-    exports['qb-core']:TriggerCallback('QBCore:Server:SpawnVehicle', function(netId)
-        local veh = NetToVeh(netId)
-        local plate = 'WZNW' .. math.random(1000, 9999)
-        SetVehicleNumberPlateText(veh, plate)
-        CurrentPlate[plate] = true
-        SetEntityHeading(veh, coords.w)
-        exports.qbfuel:SetFuel(veh, 100.0)
-        TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
-        TriggerEvent('vehiclekeys:client:SetOwner', plate)
-        SetVehicleEngineOn(veh, true, true, false)
-        if args.modLivery then
-            local livery = GetVehicleLiveryCount(veh) < 0 and args.modLivery - 1 or args.modLivery
-            exports['qb-core']:SetVehicleProperties(veh, { modLivery = livery })
-        end
-        if Config.VehicleItems and args.location == 'vehicle' then
-            TriggerServerEvent('qb-newsjob:server:addVehicleItems', plate)
-        end
-    end, args.vehicle, coords, true)
+    local netId = QB.callback.trigger('qb-newsjob:server:spawnVehicle', args.location, args.index)
+    if not netId or netId == 0 then return end
+    local veh = QB.loops.controlled(function()
+        local entity = NetToVeh(netId)
+        if entity ~= 0 and DoesEntityExist(entity) then return entity end
+    end, false, 5000, 25)
+    if not veh or not QB.vehicle.requestControl(veh) then return end
+
+    local plate = 'WZNW' .. math.random(1000, 9999)
+    SetVehicleNumberPlateText(veh, plate)
+    CurrentPlate[plate] = true
+    SetEntityHeading(veh, coords.w)
+    exports.qbfuel:SetFuel(veh, 100.0)
+    TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
+    TriggerEvent('vehiclekeys:client:SetOwner', plate)
+    SetVehicleEngineOn(veh, true, true, false)
+    if args.modLivery then
+        local livery = GetVehicleLiveryCount(veh) < 0 and args.modLivery - 1 or args.modLivery
+        QB.vehicle.setProperties(veh, { modLivery = livery })
+    end
+    if Config.VehicleItems and args.location == 'vehicle' then
+        TriggerServerEvent('qb-newsjob:server:addVehicleItems', plate)
+    end
 end
 
 local garageAppId = 'qb-newsjob:garage'
@@ -48,7 +53,7 @@ local function buildGarageNavigation()
 
         for index, vehicle in pairs(vehicles) do
             local id = ('%s:%s'):format(location, index)
-            vehicleChoices[id] = { vehicle = vehicle.name, location = location, modLivery = vehicle.modLivery }
+            vehicleChoices[id] = { index = index, location = location, modLivery = vehicle.modLivery }
             items[#items + 1] = {
                 id = id,
                 label = vehicle.label,

@@ -1,4 +1,3 @@
-QBCore = exports['qb-core']:GetCoreObject({ 'Functions' })
 CurrentPlate = {}
 Blip = nil
 
