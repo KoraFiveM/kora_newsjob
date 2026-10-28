@@ -1,7 +1,7 @@
 -- From qbnewsjob: lua test/locales.lua [resource root] [qblib root]
--- Uses the actual qblib locale loader; all resource reads are local and inert.
+-- Uses the actual kora_lib locale loader; all resource reads are local and inert.
 local resource = (arg[1] or '.'):gsub('/$', '') .. '/'
-local library = (arg[2] or '../qblib'):gsub('/$', '') .. '/'
+local library = (arg[2] or '../kora_lib'):gsub('/$', '') .. '/'
 local checks = 0
 local function eq(actual, expected, why)
     checks = checks + 1
@@ -63,10 +63,10 @@ end
 GetResourceKvpString = function() return nil end
 SetResourceKvp = function(key, value) saved = { key, value } end
 TriggerEvent = function(name, ...) event = { name, ... } end
-GetCurrentResourceName = function() return 'qblib' end
-GetInvokingResource = function() return 'qbnewsjob' end
+GetCurrentResourceName = function() return 'kora_lib' end
+GetInvokingResource = function() return 'kora_newsjob' end
 LoadResourceFile = function(name, path)
-    if name ~= 'qbnewsjob' or not included(path) then return nil end
+    if name ~= 'kora_newsjob' or not included(path) then return nil end
     local file = io.open(resource .. path, 'rb')
     if not file then return nil end
     local source = file:read('a'); file:close(); return source
@@ -77,7 +77,7 @@ eq(QB.lang('text.enter'), 'Enter', 'English locale remains supported')
 for _, language in ipairs({ 'de', 'es', 'fr', 'nl', 'pt-br' }) do
     selected, QB.locale._language = language, nil
     eq(QB.lang('text.enter'), phrases[language], language .. ' configured language resolves through actual sandbox')
-    eq(QB.locale.translate('qbnewsjob', 'text.enter'), phrases[language], language .. ' explicit-resource lookup matches')
+    eq(QB.locale.translate('kora_newsjob', 'text.enter'), phrases[language], language .. ' explicit-resource lookup matches')
     selected = 'en'
     eq(QB.locale.setLanguage(language), true, language .. ' player selection remains supported')
     eq(QB.lang('text.enter'), phrases[language], language .. ' selected language resolves through actual sandbox')

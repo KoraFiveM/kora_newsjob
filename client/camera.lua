@@ -7,7 +7,7 @@ local items = {
     newsmic = { model = 'prop_v_bmike_01', bone = 28422, offset = vector3(-0.08, 0.0, 0.0), anim = { 'missfra1', 'mcs2_crew_idle_m_boom' } },
     newsbmic = { model = 'p_ing_microphonel_01', bone = 60309, offset = vector3(0.055, 0.05, 0.0), anim = { 'missheistdocksprep1hold_cellphone', 'hold_cellphone' } },
 }
-local function isNewsEmployee() return exports.qbcore:getPlayerData({ 'job', 'name' }) == 'news' end
+local function isNewsEmployee() return exports.kora_core:getPlayerData({ 'job', 'name' }) == 'news' end
 local function removeEquipment()
     if prop and DoesEntityExist(prop) then DeleteEntity(prop) end
     ClearPedSecondaryTask(PlayerPedId())

@@ -8,7 +8,7 @@ local function removeBlip()
     end
 end
 local function spawnBlips()
-    if exports.qbcore:getPlayerData({ 'job', 'name' }) ~= 'news' then return end
+    if exports.kora_core:getPlayerData({ 'job', 'name' }) ~= 'news' then return end
     Blip = QB.blips.create(Config.Locations.vehicle.coords, {
         label = QB.lang('text.vehicle'),
         sprite = 225,
@@ -43,7 +43,7 @@ CreateThread(function()
                 menuGarage('vehicle')
             end,
             canInteract = function()
-                return exports.qbcore:getPlayerData({ 'job', 'name' }) == 'news'
+                return exports.kora_core:getPlayerData({ 'job', 'name' }) == 'news'
             end
         }
     })
@@ -55,7 +55,7 @@ CreateThread(function()
                 menuGarage('heli')
             end,
             canInteract = function()
-                return exports.qbcore:getPlayerData({ 'job', 'name' }) == 'news'
+                return exports.kora_core:getPlayerData({ 'job', 'name' }) == 'news'
             end
         }
     })
@@ -65,22 +65,22 @@ QB.interact.addBoxZone('news_equipment_shop', returnVec3(Config.Locations.shop),
     {
         label = 'Take news camera', icon = 'fas fa-camera',
         action = function() TriggerServerEvent('qb-newsjob:server:requestedEquipment', 'newscam') end,
-        canInteract = function() return exports.qbcore:getPlayerData({ 'job', 'name' }) == 'news' end,
+        canInteract = function() return exports.kora_core:getPlayerData({ 'job', 'name' }) == 'news' end,
     },
     {
         label = 'Take boom mic', icon = 'fas fa-microphone',
         action = function() TriggerServerEvent('qb-newsjob:server:requestedEquipment', 'newsmic') end,
-        canInteract = function() return exports.qbcore:getPlayerData({ 'job', 'name' }) == 'news' end,
+        canInteract = function() return exports.kora_core:getPlayerData({ 'job', 'name' }) == 'news' end,
     },
     {
         label = 'Take hand mic', icon = 'fas fa-microphone',
         action = function() TriggerServerEvent('qb-newsjob:server:requestedEquipment', 'newsbmic') end,
-        canInteract = function() return exports.qbcore:getPlayerData({ 'job', 'name' }) == 'news' end,
+        canInteract = function() return exports.kora_core:getPlayerData({ 'job', 'name' }) == 'news' end,
     },
 })
 
 local function returnOptions(targCoords, text, teleCoords)
-    exports.qbtarget:addBoxZone({
+    exports.kora_target:addBoxZone({
         coords = targCoords,
         size = vector3(1.5, 1.5, 1.5),
         rotation = 0,
@@ -93,7 +93,7 @@ local function returnOptions(targCoords, text, teleCoords)
                     QB.visuals.fade(teleCoords, 500)
                 end,
                 canInteract = function()
-                    if exports.qbcore:getPlayerData({ 'job', 'name' }) ~= 'news' then
+                    if exports.kora_core:getPlayerData({ 'job', 'name' }) ~= 'news' then
                         return false
                     end
                     return true

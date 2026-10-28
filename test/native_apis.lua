@@ -14,7 +14,7 @@ QB = {
         return spawnResult
     end },
 }
-exports = { qbcore = {
+exports = { kora_core = {
     getPlayerData = function(_, src, path)
         assert(src == 12)
         return path and job or { job = { name = job } }
@@ -23,7 +23,7 @@ exports = { qbcore = {
 } }
 RegisterNetEvent = function(name, handler) events[name] = handler end
 AddEventHandler = RegisterNetEvent
-GetCurrentResourceName = function() return 'qbnewsjob' end
+GetCurrentResourceName = function() return 'kora_newsjob' end
 NetworkGetEntityFromNetworkId = function(netId) return netId + 100 end
 GetPlayerRoutingBucket = function(src) assert(src == 12); return 8 end
 SetEntityRoutingBucket = function(entity, bucket) buckets[entity] = bucket end
@@ -50,13 +50,13 @@ near, spawnResult = true, false
 assert(not spawn(12, 'vehicle', 1))
 events.onResourceStop('another-resource')
 assert(not next(deleted))
-events.onResourceStop('qbnewsjob')
+events.onResourceStop('kora_newsjob')
 assert(deleted[171] and deleted[172])
 
 local app, requests, warps = nil, 0, 0
 CurrentPlate = {}
-exports.qbcore.getPlayerData = function() return job end
-exports.qbfuel = { SetFuel = function(_, entity, fuel) assert(entity == 171 and fuel == 100.0) end }
+exports.kora_core.getPlayerData = function() return job end
+exports.kora_fuel = { SetFuel = function(_, entity, fuel) assert(entity == 171 and fuel == 100.0) end }
 QB.lang = function(key) return key end
 QB.nui = { registerApp = function(definition) app = definition end }
 QB.callback.trigger = function(name, location, index)

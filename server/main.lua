@@ -3,7 +3,7 @@ local spawnedVehicles = {}
 QB.callback.register('qb-newsjob:server:spawnVehicle', function(src, location, index)
     if location ~= 'vehicle' and location ~= 'heli' then return false end
     if type(index) ~= 'number' and type(index) ~= 'string' then return false end
-    if exports.qbcore:getPlayerData(src, { 'job', 'name' }) ~= 'news' then return false end
+    if exports.kora_core:getPlayerData(src, { 'job', 'name' }) ~= 'news' then return false end
     local garage = Config.Locations[location]
     local vehicle = garage and garage.vehicles and garage.vehicles[index]
     if not vehicle or not QB.distance.player(src, garage.coords, 5.0) then return false end
@@ -31,7 +31,7 @@ end)
 
 RegisterNetEvent('qb-newsjob:server:addVehicleItems', function(plate)
     local src = source
-    local Player = exports.qbcore:getPlayerData(src)
+    local Player = exports.kora_core:getPlayerData(src)
     if not Player or Player.job.name ~= 'news' then return end
     if not exports['qb-vehiclekeys']:HasKeys(src, plate) then return end
 
@@ -44,23 +44,23 @@ end)
 
 local equipment = { newscam = true, newsmic = true, newsbmic = true }
 RegisterNetEvent('qb-newsjob:server:requestedEquipment', function(item)
-    local Player = exports.qbcore:getPlayerData(source)
+    local Player = exports.kora_core:getPlayerData(source)
     if not Player or Player.job.name ~= 'news' or not equipment[item] then return end
     exports['qb-inventory']:AddItem(source, item, 1, nil, nil, 'qb-newsjob:equipment-shop')
 end)
 
-exports.qbcore:createUseable('newscam', function(source)
-    local Player = exports.qbcore:getPlayerData(source)
+exports.kora_core:createUseable('newscam', function(source)
+    local Player = exports.kora_core:getPlayerData(source)
     if not Player or Player.job.name ~= 'news' then return end
     TriggerClientEvent('Cam:ToggleCam', source)
 end)
-exports.qbcore:createUseable('newsmic', function(source)
-    local Player = exports.qbcore:getPlayerData(source)
+exports.kora_core:createUseable('newsmic', function(source)
+    local Player = exports.kora_core:getPlayerData(source)
     if not Player or Player.job.name ~= 'news' then return end
     TriggerClientEvent('Mic:ToggleMic', source)
 end)
-exports.qbcore:createUseable('newsbmic', function(source)
-    local Player = exports.qbcore:getPlayerData(source)
+exports.kora_core:createUseable('newsbmic', function(source)
+    local Player = exports.kora_core:getPlayerData(source)
     if not Player or Player.job.name ~= 'news' then return end
     TriggerClientEvent('Mic:ToggleBMic', source)
 end)

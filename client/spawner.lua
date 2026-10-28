@@ -11,7 +11,7 @@ function storeCurrentVehicle()
 end
 
 local function spawnReporterVehicle(args)
-    if exports.qbcore:getPlayerData({ 'job', 'name' }) ~= 'news' then return end
+    if exports.kora_core:getPlayerData({ 'job', 'name' }) ~= 'news' then return end
     local coords = Config.Locations[args.location].coords
 
     local netId = QB.callback.trigger('qb-newsjob:server:spawnVehicle', args.location, args.index)
@@ -26,7 +26,7 @@ local function spawnReporterVehicle(args)
     SetVehicleNumberPlateText(veh, plate)
     CurrentPlate[plate] = true
     SetEntityHeading(veh, coords.w)
-    exports.qbfuel:SetFuel(veh, 100.0)
+    exports.kora_fuel:SetFuel(veh, 100.0)
     TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
     TriggerEvent('vehiclekeys:client:SetOwner', plate)
     SetVehicleEngineOn(veh, true, true, false)
