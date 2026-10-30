@@ -1,4 +1,4 @@
--- From qbnewsjob: lua test/locales.lua [resource root] [qblib root]
+-- From qbnewsjob: lua test/locales.lua [resource root] [kora_lib root]
 -- Uses the actual kora_lib locale loader; all resource reads are local and inert.
 local resource = (arg[1] or '.'):gsub('/$', '') .. '/'
 local library = (arg[2] or '../kora_lib'):gsub('/$', '') .. '/'
@@ -83,7 +83,7 @@ for _, language in ipairs({ 'de', 'es', 'fr', 'nl', 'pt-br' }) do
     eq(QB.lang('text.enter'), phrases[language], language .. ' selected language resolves through actual sandbox')
     eq(saved[1], 'locale', 'selection retains existing KVP key')
     eq(saved[2], language, 'selection persists the existing language code')
-    eq(event[1], 'qblib:client:localeChanged', 'selection retains existing local event')
+    eq(event[1], 'kora_lib:client:localeChanged', 'selection retains existing local event')
     if language == 'fr' or language == 'es' then
         eq(QB.lang('text.title_breaking_news'), '', language .. ' intentional empty title remains empty')
         eq(QB.lang('text.bottom_breaking_news'), '', language .. ' intentional empty caption remains empty')
