@@ -3,7 +3,7 @@ local callbacks, events, useable = {}, {}, {}
 local job, near, spawnResult = 'news', true, 71
 local spawns, buckets, deleted = {}, {}, {}
 vector4 = function(x, y, z, w) return { x = x, y = y, z = z, w = w } end
-QB = {
+Kora = {
     callback = { register = function(name, handler) callbacks[name] = handler end },
     distance = { player = function(src, coords, radius)
         assert(src == 12 and radius == 5.0 and coords.x)
@@ -57,15 +57,15 @@ local app, requests, warps = nil, 0, 0
 CurrentPlate = {}
 exports.kora_core.getPlayerData = function() return job end
 exports.kora_fuel = { SetFuel = function(_, entity, fuel) assert(entity == 171 and fuel == 100.0) end }
-QB.lang = function(key) return key end
-QB.nui = { registerApp = function(definition) app = definition end }
-QB.callback.trigger = function(name, location, index)
+Kora.lang = function(key) return key end
+Kora.nui = { registerApp = function(definition) app = definition end }
+Kora.callback.trigger = function(name, location, index)
     assert(name == 'qb-newsjob:server:spawnVehicle' and location == 'vehicle' and index == 1)
     requests = requests + 1
     return spawnResult
 end
-QB.loops = { controlled = function(handler) return handler() end }
-QB.vehicle = { requestControl = function() return true end, setProperties = function(entity, props)
+Kora.loops = { controlled = function(handler) return handler() end }
+Kora.vehicle = { requestControl = function() return true end, setProperties = function(entity, props)
     assert(entity == 171 and props.modLivery == 2)
 end }
 NetToVeh = function(netId) return netId + 100 end

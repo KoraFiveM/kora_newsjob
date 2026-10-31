@@ -1,16 +1,16 @@
 local spawnedVehicles = {}
 
-QB.callback.register('qb-newsjob:server:spawnVehicle', function(src, location, index)
+Kora.callback.register('qb-newsjob:server:spawnVehicle', function(src, location, index)
     if location ~= 'vehicle' and location ~= 'heli' then return false end
     if type(index) ~= 'number' and type(index) ~= 'string' then return false end
     if exports.kora_core:getPlayerData(src, { 'job', 'name' }) ~= 'news' then return false end
     local garage = Config.Locations[location]
     local vehicle = garage and garage.vehicles and garage.vehicles[index]
-    if not vehicle or not QB.distance.player(src, garage.coords, 5.0) then return false end
+    if not vehicle or not Kora.distance.player(src, garage.coords, 5.0) then return false end
 
     -- Model and coordinates come from this resource, never the client's spawn request.
     local coords = garage.coords
-    local netId = QB.entities.createVehicle(vehicle.name,
+    local netId = Kora.entities.createVehicle(vehicle.name,
         { x = coords.x, y = coords.y, z = coords.z, w = coords.w },
         location == 'heli' and 'heli' or 'automobile')
     if not netId or netId == 0 then return false end

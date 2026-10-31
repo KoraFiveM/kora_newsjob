@@ -14,14 +14,14 @@ local function removeEquipment()
     if animationDict then RemoveAnimDict(animationDict) end
     animationDict = nil
     prop, activeItem = nil, nil
-    QB.camera.close('equipment_removed')
+    Kora.camera.close('equipment_removed')
 end
 local function startEquipmentMonitor()
     if equipmentMonitorRunning then return end
     equipmentMonitorRunning = true
     CreateThread(function()
         while activeItem do
-            if not isNewsEmployee() or IsEntityDead(PlayerPedId()) or (activeItem == 'newscam' and not QB.camera.isOpen()) then
+            if not isNewsEmployee() or IsEntityDead(PlayerPedId()) or (activeItem == 'newscam' and not Kora.camera.isOpen()) then
                 removeEquipment()
             end
             Wait(0)
@@ -36,15 +36,15 @@ local function useEquipment(itemName)
     if not item then return end
     activeItem = itemName
     local ped, hash = PlayerPedId(), joaat(item.model)
-    if not QB.stream.loadModel(hash) then startEquipmentMonitor() return end
+    if not Kora.stream.loadModel(hash) then startEquipmentMonitor() return end
     prop = CreateObject(hash, GetEntityCoords(ped), true, true, false)
     SetModelAsNoLongerNeeded(hash)
     AttachEntityToEntity(prop, ped, GetPedBoneIndex(ped, item.bone), item.offset.x, item.offset.y, item.offset.z, 0.0, 0.0, 0.0, true, true, false, true, 0, true)
-    if not QB.stream.loadAnimDict(item.anim[1]) then startEquipmentMonitor() return end
+    if not Kora.stream.loadAnimDict(item.anim[1]) then startEquipmentMonitor() return end
     animationDict = item.anim[1]
     TaskPlayAnim(ped, item.anim[1], item.anim[2], 1.0, -1.0, -1, 50, 0.0, false, false, false)
     if itemName == 'newscam' then
-        QB.camera.open({
+        Kora.camera.open({
             mode = 'recording',
             title = 'WEAZEL NEWS',
             subtitle = 'FIELD UNIT // LIVE',

@@ -54,7 +54,7 @@ for _, language in ipairs({ 'en', 'de', 'es', 'fr', 'nl', 'pt-br' }) do
 end
 
 local selected, saved, event = 'en', nil, nil
-QB = { locale = {} }
+Kora = { locale = {} }
 GetConvar = function(name, fallback)
     if name == 'qb_locale' then return selected end
     if name == 'qb_locales' then return 'en,de,es,fr,nl,pt-br' end
@@ -73,23 +73,23 @@ LoadResourceFile = function(name, path)
 end
 dofile(library .. 'modules/locales/shared.lua')
 dofile(library .. 'modules/locales/client.lua')
-eq(QB.lang('text.enter'), 'Enter', 'English locale remains supported')
+eq(Kora.lang('text.enter'), 'Enter', 'English locale remains supported')
 for _, language in ipairs({ 'de', 'es', 'fr', 'nl', 'pt-br' }) do
-    selected, QB.locale._language = language, nil
-    eq(QB.lang('text.enter'), phrases[language], language .. ' configured language resolves through actual sandbox')
-    eq(QB.locale.translate('kora_newsjob', 'text.enter'), phrases[language], language .. ' explicit-resource lookup matches')
+    selected, Kora.locale._language = language, nil
+    eq(Kora.lang('text.enter'), phrases[language], language .. ' configured language resolves through actual sandbox')
+    eq(Kora.locale.translate('kora_newsjob', 'text.enter'), phrases[language], language .. ' explicit-resource lookup matches')
     selected = 'en'
-    eq(QB.locale.setLanguage(language), true, language .. ' player selection remains supported')
-    eq(QB.lang('text.enter'), phrases[language], language .. ' selected language resolves through actual sandbox')
+    eq(Kora.locale.setLanguage(language), true, language .. ' player selection remains supported')
+    eq(Kora.lang('text.enter'), phrases[language], language .. ' selected language resolves through actual sandbox')
     eq(saved[1], 'locale', 'selection retains existing KVP key')
     eq(saved[2], language, 'selection persists the existing language code')
     eq(event[1], 'kora_lib:client:localeChanged', 'selection retains existing local event')
     if language == 'fr' or language == 'es' then
-        eq(QB.lang('text.title_breaking_news'), '', language .. ' intentional empty title remains empty')
-        eq(QB.lang('text.bottom_breaking_news'), '', language .. ' intentional empty caption remains empty')
+        eq(Kora.lang('text.title_breaking_news'), '', language .. ' intentional empty title remains empty')
+        eq(Kora.lang('text.bottom_breaking_news'), '', language .. ' intentional empty caption remains empty')
     end
 end
-selected, QB.locale._language = 'absent', nil
-eq(QB.lang('text.enter'), 'Enter', 'unshipped language keeps English fallback')
-eq(QB.lang('text.absent'), 'text.absent', 'unshipped key keeps raw-key fallback')
+selected, Kora.locale._language = 'absent', nil
+eq(Kora.lang('text.enter'), 'Enter', 'unshipped language keeps English fallback')
+eq(Kora.lang('text.absent'), 'text.absent', 'unshipped key keeps raw-key fallback')
 print(('qbnewsjob locales: %d checks passed'):format(checks))
