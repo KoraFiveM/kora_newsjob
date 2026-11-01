@@ -49,18 +49,14 @@ RegisterNetEvent('qb-newsjob:server:requestedEquipment', function(item)
     exports['qb-inventory']:AddItem(source, item, 1, nil, nil, 'qb-newsjob:equipment-shop')
 end)
 
-exports.kora_core:createUseable('newscam', function(source)
-    local Player = exports.kora_core:getPlayerData(source)
-    if not Player or Player.job.name ~= 'news' then return end
-    TriggerClientEvent('Cam:ToggleCam', source)
-end)
-exports.kora_core:createUseable('newsmic', function(source)
-    local Player = exports.kora_core:getPlayerData(source)
-    if not Player or Player.job.name ~= 'news' then return end
-    TriggerClientEvent('Mic:ToggleMic', source)
-end)
-exports.kora_core:createUseable('newsbmic', function(source)
-    local Player = exports.kora_core:getPlayerData(source)
-    if not Player or Player.job.name ~= 'news' then return end
-    TriggerClientEvent('Mic:ToggleBMic', source)
-end)
+local function createNewsUseable(item, clientEvent)
+    exports.kora_core:createUseable(item, function(source)
+        local Player = exports.kora_core:getPlayerData(source)
+        if not Player or Player.job.name ~= 'news' then return end
+        TriggerClientEvent(clientEvent, source)
+    end)
+end
+
+createNewsUseable('newscam', 'Cam:ToggleCam')
+createNewsUseable('newsmic', 'Mic:ToggleMic')
+createNewsUseable('newsbmic', 'Mic:ToggleBMic')
