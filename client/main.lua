@@ -22,7 +22,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     spawnBlips()
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerUpdated', function(key, val)
+RegisterNetEvent('QBCore:Client:OnPlayerUpdated', function()
     removeBlip()
     spawnBlips()
 end)
@@ -30,7 +30,6 @@ end)
 local function returnVec3(coords)
     return vector3(coords.x, coords.y, coords.z)
 end
-
 
 CreateThread(function()
     Kora.interact.addBoxZone('news_garage', 
@@ -93,10 +92,7 @@ local function returnOptions(targCoords, text, teleCoords)
                     Kora.visuals.fade(teleCoords, 500)
                 end,
                 canInteract = function()
-                    if exports.kora_core:getPlayerData({ 'job', 'name' }) ~= 'news' then
-                        return false
-                    end
-                    return true
+                    return exports.kora_core:getPlayerData({ 'job', 'name' }) == 'news'
                 end
             }
         }
