@@ -9,6 +9,8 @@ version '1.5.0'
 
 dependency 'kora_lib'
 dependency 'kora_core'
+-- client/main.lua calls exports.kora_target:addBoxZone at load; this forces kora_target to start first.
+dependency 'kora_target'
 
 shared_scripts {
     '@kora_lib/init.lua',
