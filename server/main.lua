@@ -16,25 +16,32 @@ Kora.callback.register('qb-newsjob:server:spawnVehicle', function(src, location,
     if not netId or netId == 0 then return false end
     local entity = NetworkGetEntityFromNetworkId(netId)
     SetEntityRoutingBucket(entity, GetPlayerRoutingBucket(src))
-    spawnedVehicles[netId] = entity
+    spawnedVehicles[netId] = { entity = entity, owner = src, itemsGranted = false }
     return netId
 end)
 
 AddEventHandler('onResourceStop', function(resource)
     if resource ~= GetCurrentResourceName() then return end
-    for netId, entity in pairs(spawnedVehicles) do
-        if NetworkGetEntityFromNetworkId(netId) == entity and DoesEntityExist(entity) then
-            DeleteEntity(entity)
+    for netId, veh in pairs(spawnedVehicles) do
+        if NetworkGetEntityFromNetworkId(netId) == veh.entity and DoesEntityExist(veh.entity) then
+            DeleteEntity(veh.entity)
         end
     end
 end)
 
-RegisterNetEvent('qb-newsjob:server:addVehicleItems', function(plate)
+-- netId identifies a vehicle this resource actually spawned (see spawnVehicle above);
+-- plate is only used for the qb-vehiclekeys ownership check, items are granted at most once per netId.
+RegisterNetEvent('qb-newsjob:server:addVehicleItems', function(netId, plate)
     local src = source
     local Player = exports.kora_core:getPlayerData(src)
     if not Player or Player.job.name ~= 'news' then return end
+
+    local veh = spawnedVehicles[netId]
+    if not veh or veh.owner ~= src or veh.itemsGranted then return end
+    if NetworkGetEntityFromNetworkId(netId) ~= veh.entity or not DoesEntityExist(veh.entity) then return end
     if not exports['qb-vehiclekeys']:HasKeys(src, plate) then return end
 
+    veh.itemsGranted = true
     exports['qb-inventory']:CreateInventory('trunk-' .. plate)
 
     for slot, item in pairs(Config.VehicleItems) do

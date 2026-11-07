@@ -35,7 +35,7 @@ local function spawnReporterVehicle(args)
         Kora.vehicle.setProperties(veh, { modLivery = livery })
     end
     if Config.VehicleItems and args.location == 'vehicle' then
-        TriggerServerEvent('qb-newsjob:server:addVehicleItems', plate)
+        TriggerServerEvent('qb-newsjob:server:addVehicleItems', netId, plate)
     end
 end
 
