@@ -26,3 +26,6 @@ client_scripts {
 server_script 'server/main.lua'
 
 files { 'locales/*.lua' }
+
+-- kora_qa: Gherkin test scenarios (converted legacy tests), see [kora]/kora_qa/README.md
+qa_feature 'tests/*.feature'
