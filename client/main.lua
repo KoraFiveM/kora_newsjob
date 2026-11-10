@@ -102,5 +102,5 @@ if Config.Locations.outside then
     returnOptions(Config.Locations.outside, Kora.lang('text.enter'), Config.Locations.inside)
 end
 if Config.Locations.inside then
-    returnOptions(Config.Locations.inside, Kora.lang('text.exit'), Config.Locations.outside)
+    returnOptions(Config.Locations.inside, Kora.lang('text.go_outside'), Config.Locations.outside)
 end
