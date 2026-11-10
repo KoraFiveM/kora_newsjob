@@ -1,4 +1,4 @@
--- Run from qbnewsjob: lua5.4 test/native_apis.lua
+-- Run from kora_newsjob: lua5.4 test/native_apis.lua
 local callbacks, events, useable = {}, {}, {}
 local job, near, spawnResult = 'news', true, 71
 local spawns, buckets, deleted = {}, {}, {}
@@ -87,4 +87,4 @@ assert(requests == 1)
 job, spawnResult = 'news', false
 app.onAction('qb-newsjob:spawn-vehicle', { itemId = 'vehicle:1' })
 assert(warps == 1)
-print('qbnewsjob: native spawns, job/location checks, bucket isolation and cleanup passed')
+print('kora_newsjob: native spawns, job/location checks, bucket isolation and cleanup passed')

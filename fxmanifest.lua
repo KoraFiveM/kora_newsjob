@@ -1,8 +1,6 @@
 fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
--- Keep the legacy resource name resolvable for exports['qbnewsjob'] callers.
-provide 'qbnewsjob'
 author 'Kakarot'
 description 'Simple news job equipment and vehicle spawns'
 version '1.5.0'

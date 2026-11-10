@@ -1,4 +1,4 @@
--- From qbnewsjob: lua test/locales.lua [resource root] [kora_lib root]
+-- From kora_newsjob: lua test/locales.lua [resource root] [kora_lib root]
 -- Uses the actual kora_lib locale loader; all resource reads are local and inert.
 local resource = (arg[1] or '.'):gsub('/$', '') .. '/'
 local library = (arg[2] or '../kora_lib'):gsub('/$', '') .. '/'
@@ -56,8 +56,8 @@ end
 local selected, saved, event = 'en', nil, nil
 Kora = { locale = {} }
 GetConvar = function(name, fallback)
-    if name == 'qb_locale' then return selected end
-    if name == 'qb_locales' then return 'en,de,es,fr,nl,pt-br' end
+    if name == 'kora_locale' then return selected end
+    if name == 'kora_locales' then return 'en,de,es,fr,nl,pt-br' end
     return fallback
 end
 GetResourceKvpString = function() return nil end
@@ -92,4 +92,4 @@ end
 selected, Kora.locale._language = 'absent', nil
 eq(Kora.lang('text.enter'), 'Enter', 'unshipped language keeps English fallback')
 eq(Kora.lang('text.absent'), 'text.absent', 'unshipped key keeps raw-key fallback')
-print(('qbnewsjob locales: %d checks passed'):format(checks))
+print(('kora_newsjob locales: %d checks passed'):format(checks))
