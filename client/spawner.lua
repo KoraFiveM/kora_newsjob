@@ -1,0 +1,96 @@
+function storeCurrentVehicle()
+    local veh = GetVehiclePedIsIn(PlayerPedId(), false)
+    if veh == 0 then return end
+
+    local plate = Kora.vehicle.plate(veh)
+    if not CurrentPlate[plate] then return end
+
+    TriggerServerEvent('qb-vehiclekeys:server:RemoveVehicleKeys', plate)
+    CurrentPlate[plate] = nil
+    DeleteVehicle(veh)
+end
+
+local function spawnReporterVehicle(args)
+    if exports.kora_core:getPlayerData({ 'job', 'name' }) ~= 'news' then return end
+    local coords = Config.Locations[args.location].coords
+
+    local netId = Kora.callback.trigger('qb-newsjob:server:spawnVehicle', args.location, args.index)
+    if not netId or netId == 0 then return end
+    local veh = Kora.loops.controlled(function()
+        local entity = NetToVeh(netId)
+        if entity ~= 0 and DoesEntityExist(entity) then return entity end
+    end, false, 5000, 25)
+    if not veh or not Kora.vehicle.requestControl(veh) then return end
+
+    local plate = 'WZNW' .. math.random(1000, 9999)
+    SetVehicleNumberPlateText(veh, plate)
+    CurrentPlate[plate] = true
+    SetEntityHeading(veh, coords.w)
+    exports.kora_fuel:SetFuel(veh, 100.0)
+    TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
+    TriggerEvent('vehiclekeys:client:SetOwner', plate)
+    SetVehicleEngineOn(veh, true, true, false)
+    if args.modLivery then
+        local livery = GetVehicleLiveryCount(veh) < 0 and args.modLivery - 1 or args.modLivery
+        Kora.vehicle.setProperties(veh, { modLivery = livery })
+    end
+    if Config.VehicleItems and args.location == 'vehicle' then
+        TriggerServerEvent('qb-newsjob:server:addVehicleItems', netId, plate)
+    end
+end
+
+local garageAppId = 'qb-newsjob:garage'
+local spawnVehicleAction = 'qb-newsjob:spawn-vehicle'
+local vehicleChoices = {}
+
+local function buildGarageNavigation()
+    local navigation = {}
+
+    for _, location in ipairs({ 'vehicle', 'heli' }) do
+        local garage = Config.Locations[location]
+        local vehicles = garage and garage.vehicles or {}
+        local items = {}
+
+        for index, vehicle in pairs(vehicles) do
+            local id = ('%s:%s'):format(location, index)
+            vehicleChoices[id] = { index = index, location = location, modLivery = vehicle.modLivery }
+            items[#items + 1] = {
+                id = id,
+                label = vehicle.label,
+                action = { id = spawnVehicleAction, label = 'Take vehicle' },
+            }
+        end
+
+        navigation[#navigation + 1] = {
+            id = location,
+            label = Kora.lang('text.' .. location),
+            icon = location == 'vehicle' and 'Car' or 'Helicopter',
+            content = {
+                title = Kora.lang('text.' .. location),
+                blocks = #items > 0 and { { type = 'list', id = location, items = items } }
+                    or { { type = 'empty', title = 'No vehicles available', icon = 'CircleOff' } },
+            },
+        }
+    end
+
+    return navigation
+end
+
+Kora.nui.registerApp({
+    id = garageAppId,
+    title = 'Weazel News Garage',
+    icon = 'Newspaper',
+    layout = 'compact',
+    navigation = buildGarageNavigation(),
+    onAction = function(actionId, context)
+        if actionId ~= spawnVehicleAction then return end
+
+        local vehicle = vehicleChoices[context and context.itemId]
+        if vehicle then spawnReporterVehicle(vehicle) end
+    end,
+})
+
+function menuGarage(location)
+    if not Config.Locations[location] or not Config.Locations[location].vehicles then return end
+    Kora.nui.openApp(garageAppId, { viewId = location })
+end
