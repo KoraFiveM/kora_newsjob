@@ -21,4 +21,4 @@ News Job For QB-Core
 
 # Documentation
 
-See `docs/index.md` for features, configuration, events and troubleshooting.
+See `docs/index.md` for the documentation map: installation, how to use, configuration, garage, equipment, events and troubleshooting.

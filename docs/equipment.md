@@ -1,6 +1,6 @@
 ---
 title: Equipment
-sidebar_position: 4
+sidebar_position: 8
 ---
 
 # Equipment

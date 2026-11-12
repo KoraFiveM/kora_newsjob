@@ -18,54 +18,18 @@ Current version: see `version` in `fxmanifest.lua`.
 - **Building entrance** - "Enter" at `Config.Locations.outside` and "Go outside" at `Config.Locations.inside` fade the screen and move the player.
 - **Blip** - news employees get a "Weazel News Vehicles" blip at the garage.
 
-## Requirements
-
-Declared in `fxmanifest.lua`:
-
-| Resource | Used for |
-| --- | --- |
-| `kora_lib` | `Kora.nui`, `Kora.camera`, `Kora.interact`, blips, locales, callbacks, entity and vehicle helpers |
-| `kora_core` | `getPlayerData` (job check) and `createUseable` |
-| `kora_target` | `exports.kora_target:addBoxZone` for the door zones |
-
-Used but not declared as dependencies:
-
-| Resource | Used for |
-| --- | --- |
-| `qb-inventory` (export name) | `CreateInventory` and `AddItem` for trunk and counter items |
-| `qb-vehiclekeys` | `HasKeys` export, `qb-vehiclekeys:server:RemoveVehicleKeys` and `vehiclekeys:client:SetOwner` events |
-| `kora_fuel` | `SetFuel` export to fill spawned vehicles |
-
 ## Installation
 
-1. Place the resource in your resources folder and ensure it after its dependencies:
+See [Installation](./installation.md) for dependencies, required items and job, start order and tests.
 
-   ```cfg
-   ensure kora_lib
-   ensure kora_core
-   ensure kora_target
-   ensure qb-inventory
-   ensure qb-vehiclekeys
-   ensure kora_fuel
-   ensure kora_newsjob
-   ```
+## Documentation map
 
-2. No SQL import is needed.
-3. Make sure the items `newscam`, `newsmic` and `newsbmic` exist in your item list and that a job named `news` exists. This resource defines neither.
-4. Adjust [Configuration](./configuration.md).
-
-## Testing
-
-- `lua test/locales.lua` (with `kora_lib` checked out alongside) checks the locale loading of the translated files.
-- `lua test/native_apis.lua` is an offline check script in `test/`.
-- `tests/checklist-jobs.feature` holds `kora_qa` scenarios (registered with `qa_feature` in `fxmanifest.lua`).
-
-## Pages
-
+- [Installation](./installation.md) - dependencies, required job and items, start order, manifest, tests
+- [How to use](./how-to-use.md) - job gating, garage spawning, one-time trunk grant, equipment shop, usable items, door teleport
 - [Configuration](./configuration.md) - all `Config` options
 - [Garage](./garage.md) - the garage app, vehicle spawning, trunk items and blip
 - [Equipment](./equipment.md) - counter, usable items, props and removal rules
 - [Events](./events.md) - net events and callbacks
 - [Troubleshooting](./troubleshooting.md) - caveats and common problems
 
-This resource registers no commands, exposes no exports, defines no ACE permissions and uses no database tables.
+This resource registers no commands, exposes no exports, defines no ACE permissions and uses no database tables, so there is no commands or API reference page.
