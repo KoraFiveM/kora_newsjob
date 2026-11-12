@@ -57,7 +57,7 @@ local function buildGarageNavigation()
             items[#items + 1] = {
                 id = id,
                 label = vehicle.label,
-                action = { id = spawnVehicleAction, label = 'Take vehicle' },
+                action = { id = spawnVehicleAction, label = Kora.lang('text.take_vehicle') },
             }
         end
 
@@ -68,7 +68,7 @@ local function buildGarageNavigation()
             content = {
                 title = Kora.lang('text.' .. location),
                 blocks = #items > 0 and { { type = 'list', id = location, items = items } }
-                    or { { type = 'empty', title = 'No vehicles available', icon = 'CircleOff' } },
+                    or { { type = 'empty', title = Kora.lang('text.no_vehicles'), icon = 'CircleOff' } },
             },
         }
     end
@@ -78,7 +78,7 @@ end
 
 Kora.nui.registerApp({
     id = garageAppId,
-    title = 'Weazel News Garage',
+    title = Kora.lang('text.garage'),
     icon = 'Newspaper',
     layout = 'compact',
     navigation = buildGarageNavigation(),

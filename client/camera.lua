@@ -46,9 +46,9 @@ local function useEquipment(itemName)
     if itemName == 'newscam' then
         Kora.camera.open({
             mode = 'recording',
-            title = 'WEAZEL NEWS',
-            subtitle = 'FIELD UNIT // LIVE',
-            cameraLabel = 'NEWS CAM 01',
+            title = Kora.lang('text.news_title'),
+            subtitle = Kora.lang('text.field_live'),
+            cameraLabel = Kora.lang('text.camera_label'),
             recording = true,
             viewMode = 4,
         })
