@@ -1,0 +1,53 @@
+{
+  "resource": "kora_newsjob",
+  "standardsRevision": "2026-11-12.2",
+  "realms": {
+    "client": [
+      "client/camera.lua",
+      "client/main.lua",
+      "client/spawner.lua"
+    ],
+    "server": [
+      "server/main.lua"
+    ],
+    "shared": [
+      "config.lua",
+      "locales/de.lua",
+      "locales/en.lua",
+      "locales/es.lua",
+      "locales/fr.lua",
+      "locales/nl.lua",
+      "locales/pt-br.lua"
+    ],
+    "manifest": [
+      "fxmanifest.lua"
+    ],
+    "test": [
+      "test/locales.lua",
+      "test/native_apis.lua"
+    ]
+  },
+  "exclude": [
+    ".git/*",
+    ".github/*",
+    ".standards/*",
+    "node_modules/*",
+    "**/node_modules/*",
+    "vendor/*",
+    "**/vendor/*",
+    "web/*",
+    "ui/*",
+    "html/*",
+    "dist/*",
+    "artifacts/*",
+    "runtime/*",
+    "txData/*",
+    "storage/*",
+    "stream/*",
+    "docs/*",
+    "__pycache__/*",
+    "modules/lookup/data/*"
+  ],
+  "project": "Kora Framework",
+  "copyright": "Copyright © 2026 Kora Framework"
+}
