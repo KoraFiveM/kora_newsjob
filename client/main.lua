@@ -62,17 +62,17 @@ end)
 
 Kora.interact.addBoxZone('news_equipment_shop', returnVec3(Config.Locations.shop), vector3(2.0, 2.0, 2.0), {
     {
-        label = 'Take news camera', icon = 'fas fa-camera',
+        label = Kora.lang('text.take_camera'), icon = 'fas fa-camera',
         action = function() TriggerServerEvent('qb-newsjob:server:requestedEquipment', 'newscam') end,
         canInteract = function() return exports.kora_core:getPlayerData({ 'job', 'name' }) == 'news' end,
     },
     {
-        label = 'Take boom mic', icon = 'fas fa-microphone',
+        label = Kora.lang('text.take_boom_mic'), icon = 'fas fa-microphone',
         action = function() TriggerServerEvent('qb-newsjob:server:requestedEquipment', 'newsmic') end,
         canInteract = function() return exports.kora_core:getPlayerData({ 'job', 'name' }) == 'news' end,
     },
     {
-        label = 'Take hand mic', icon = 'fas fa-microphone',
+        label = Kora.lang('text.take_hand_mic'), icon = 'fas fa-microphone',
         action = function() TriggerServerEvent('qb-newsjob:server:requestedEquipment', 'newsbmic') end,
         canInteract = function() return exports.kora_core:getPlayerData({ 'job', 'name' }) == 'news' end,
     },

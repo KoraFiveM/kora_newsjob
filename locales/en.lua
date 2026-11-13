@@ -12,6 +12,15 @@ return {
         go_outside = " Go outside",
         breaking_news = "BREAKING NEWS",
         title_breaking_news = "7:00 AM / Today Weazel News Exclusive",
-        bottom_breaking_news = "We bring you the LATEST NEWS live as it happens"
+        bottom_breaking_news = "We bring you the LATEST NEWS live as it happens",
+        take_camera = 'Take news camera',
+        take_boom_mic = 'Take boom mic',
+        take_hand_mic = 'Take hand mic',
+        take_vehicle = 'Take vehicle',
+        no_vehicles = 'No vehicles available',
+        garage = 'Weazel News Garage',
+        news_title = 'WEAZEL NEWS',
+        field_live = 'FIELD UNIT // LIVE',
+        camera_label = 'NEWS CAM 01',
     }
 }
