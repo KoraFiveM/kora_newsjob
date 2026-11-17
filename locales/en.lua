@@ -1,6 +1,6 @@
 return {
     text = {
-        weazle_overlay = "Weazle Overlay ~INPUT_PICKUP~ \nFilm Overlay: ~INPUT_INTERACTION_MENU~",
+        weazle_overlay = "Weazel Overlay ~INPUT_PICKUP~ \nFilm Overlay: ~INPUT_INTERACTION_MENU~",
         vehicle = "Weazel News Vehicles",
         close_menu = "⬅ Close Menu",
         heli = "Weazel News Helicopters",

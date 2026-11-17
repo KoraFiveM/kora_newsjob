@@ -1,0 +1,26 @@
+return {
+    text = {
+        weazle_overlay = "Оверлей Weazel ~INPUT_PICKUP~ \nОверлей съёмки: ~INPUT_INTERACTION_MENU~",
+        vehicle = "Транспорт Weazel News",
+        close_menu = "⬅ Закрыть меню",
+        heli = "Вертолёты Weazel News",
+        store_vehicle = "Поставить транспорт в гараж",
+        vehicles = "Транспорт",
+        store_helicopters = "Поставить вертолёт в ангар",
+        helicopters = "Вертолёты",
+        enter = "Войти",
+        go_outside = " Выйти на улицу",
+        breaking_news = "СРОЧНЫЕ НОВОСТИ",
+        title_breaking_news = "7:00 / Сегодня: эксклюзив Weazel News",
+        bottom_breaking_news = "Мы показываем ПОСЛЕДНИЕ НОВОСТИ в прямом эфире с места событий",
+        take_camera = 'Взять телекамеру',
+        take_boom_mic = 'Взять микрофон на штанге',
+        take_hand_mic = 'Взять ручной микрофон',
+        take_vehicle = 'Взять транспорт',
+        no_vehicles = 'Нет доступного транспорта',
+        garage = 'Гараж Weazel News',
+        news_title = 'WEAZEL NEWS',
+        field_live = 'ВЫЕЗДНАЯ ГРУППА // ПРЯМОЙ ЭФИР',
+        camera_label = 'КАМЕРА 01',
+    }
+}
