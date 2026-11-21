@@ -3,7 +3,7 @@ game 'gta5'
 lua54 'yes'
 author 'Kakarot'
 description 'Simple news job equipment and vehicle spawns'
-version '0.2.1'
+version '0.2.2'
 
 dependency 'kora_lib'
 dependency 'kora_core'
