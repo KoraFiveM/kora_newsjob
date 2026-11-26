@@ -26,7 +26,7 @@ local function spawnReporterVehicle(args)
     SetVehicleNumberPlateText(veh, plate)
     CurrentPlate[plate] = true
     SetEntityHeading(veh, coords.w)
-    exports.kora_fuel:SetFuel(veh, 100.0)
+    Kora.bridge.setFuel(veh, 100.0)
     TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
     TriggerEvent('vehiclekeys:client:SetOwner', plate)
     SetVehicleEngineOn(veh, true, true, false)
